@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, useState } from "react";
+import React from "react";
 import {
   Form,
   FormControl,
@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/form";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { categoryValidationSchema } from "@/lib/validation/productValidation";
+import { categoryValidationSchema } from "@/lib/validation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "../ui/textarea";
@@ -31,19 +31,18 @@ import { useToast } from "../ui/use-toast";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Icons } from "../ui/icons";
 import { z } from "zod";
-import { useRouter } from "next/navigation";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
+import Image from "next/image";
+import { UploadButton } from "@/lib/utils/uploadthing";
 
 type CategoryCreateSchemaType = z.infer<typeof categoryValidationSchema>;
 
 const CreateCategories = () => {
-  const [files, setFiles] = useState<File[]>([]);
   const { toast } = useToast();
-  const router = useRouter();
   const axiosPrivate = useAxiosPrivate();
   const categoryMutation = useMutation({
     mutationFn: async (payload: CategoryCreateSchemaType) => {
-      return await axiosPrivate.post("/categories", payload);
+      return await axiosPrivate.post("/admin/categories/create", payload);
     },
     onError: (error: any) => {
       const errorData = error.response.data;
@@ -65,7 +64,7 @@ const CreateCategories = () => {
     queryFn: async () => {
       try {
         const response = await axiosPrivate.get("/categories");
-        return response?.data?.categories;
+        return response?.data?.data;
       } catch (error: any) {
         toast({
           title: `Uh oh! `,
@@ -87,26 +86,6 @@ const CreateCategories = () => {
 
   const onFormSubmit: SubmitHandler<CategoryCreateSchemaType> = (data) => {
     categoryMutation.mutate(data);
-  };
-
-  const handleImage = (
-    e: ChangeEvent<HTMLInputElement>,
-    fieldChange: (value: string) => void
-  ) => {
-    e.preventDefault();
-    const fileReader = new FileReader();
-    if (e.target.files && e.target.files.length > 0) {
-      const file = e.target.files[0];
-      setFiles(Array.from(e.target.files));
-
-      if (!file.type.includes("image")) return;
-
-      fileReader.onload = async (event) => {
-        const imageDataUrl = event.target?.result?.toString() || "";
-        fieldChange(imageDataUrl);
-      };
-      fileReader.readAsDataURL(file);
-    }
   };
 
   return (
@@ -221,16 +200,61 @@ const CreateCategories = () => {
                   <FormItem>
                     <FormLabel>Select Category Image</FormLabel>
                     <FormControl>
-                      <Input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e: any) => handleImage(e, field.onChange)}
-                      />
+                      <div className="flex flex-column md:flex-row gap-10 items-center">
+                        <UploadButton
+                          endpoint="singleImageUploader"
+                          onClientUploadComplete={(data: any) => {
+                            const fileURL = data?.[0]?.url;
+                            field.onChange(fileURL);
+                            toast({
+                              title: "Uploaded Successfully!",
+                            });
+                          }}
+                          onUploadError={(error: Error) => {
+                            console.log(error, "EROR");
+                            toast({
+                              title: "Something Went Wrong,Try Again!",
+                            });
+                          }}
+                        />
+                        {form.getValues("categoryImg") && (
+                          <li className="block p-1 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 xl:w-1/8 h-24">
+                            <article className="group hasImage w-full h-full rounded-md focus:outline-none focus:shadow-outline cursor-pointer relative text-transparent hover:text-white shadow-sm ">
+                              <Image
+                                src={form.getValues("categoryImg") || ""}
+                                alt={"brandImg"}
+                                width={100}
+                                height={100}
+                                className="img-preview w-full h-full sticky object-contain rounded-md bg-fixed"
+                              />
+
+                              <section className="flex flex-col rounded-md text-xs break-words w-full h-full z-20 absolute top-0 py-2 px-3 hover:bg-black opacity-70 hover:backdrop-blur-md">
+                                <div className="flex">
+                                  <span className="p-1">
+                                    <i>
+                                      <svg
+                                        className="fill-current w-4 h-4 ml-auto pt-"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                      >
+                                        <path d="M5 8.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5c0 .829-.672 1.5-1.5 1.5s-1.5-.671-1.5-1.5zm9 .5l-2.519 4-2.481-1.96-4 5.96h14l-5-8zm8-4v14h-20v-14h20zm2-2h-24v18h24v-18z"></path>
+                                      </svg>
+                                    </i>
+                                  </span>
+                                </div>
+                              </section>
+                            </article>
+                          </li>
+                        )}
+                      </div>
                     </FormControl>
                   </FormItem>
                 );
               }}
             />
+
             <Button
               type="submit"
               className="w-40 m-auto my-6"

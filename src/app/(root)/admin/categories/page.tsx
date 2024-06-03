@@ -1,13 +1,13 @@
 import React, { cache } from "react";
-import ServerPageWrapper from "../serverPageWrapper";
-import CategoryList from "@/components/shared/Listing/CategoryList";
+import ServerPageWrapper from "@/app/(root)/serverPageWrapper";
+import CategoryList from "@/components/shared/Listing/category-list";
 import axios from "@/lib/utils/axios";
 
 const fetchCategories = async () => {
   try {
     const res = await axios.get("/categories");
     if (res.data?.success) {
-      return res.data?.categories;
+      return res.data;
     }
     return [];
   } catch (error) {

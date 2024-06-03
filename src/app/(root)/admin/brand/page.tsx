@@ -1,10 +1,11 @@
 import React from "react";
-import CreateBrandForm from "@/components/forms/CreateBrand";
 import ServerPageWrapper from "@/app/(root)/serverPageWrapper";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { axiosPrivate } from "@/lib/utils/axios";
-export const fetchBrandInfo = async () => {
+import BrandList from "@/components/shared/Listing/brand-list";
+
+const fetachAllBrands = async () => {
   try {
     const { userId, getToken } = auth();
     const sessionToken = await getToken();
@@ -13,7 +14,7 @@ export const fetchBrandInfo = async () => {
       redirect("/sign-in");
     }
 
-    const res = await axiosPrivate.get("/brand", {
+    const res = await axiosPrivate.get("/admin/brands/get-all", {
       headers: {
         Authorization: `Bearer ${sessionToken}`,
       },
@@ -26,16 +27,14 @@ export const fetchBrandInfo = async () => {
       return [];
     }
   } catch (error) {
-    console.error("Error fetching data:", error);
-    return [];
+    console.log(error);
   }
 };
 const BrandPage = async () => {
-  const brandInfo = await fetchBrandInfo();
-  console.log(brandInfo, "INFO");
+  const brands = await fetachAllBrands();
   return (
     <ServerPageWrapper>
-      <CreateBrandForm brandInfo={brandInfo} />
+      <BrandList brands={brands} />
     </ServerPageWrapper>
   );
 };

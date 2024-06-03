@@ -21,6 +21,7 @@ import { formatDateString } from "@/lib/utils";
 import useDebounce from "@/hooks/useDebounce";
 import { useDataTable } from "@/hooks/useDataTable";
 import { useSearchParams } from "next/navigation";
+import { DateRangePicker } from "@/components/ui/date-range-picker";
 
 const TransactionList = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -29,15 +30,16 @@ const TransactionList = () => {
   const axiosPrivate = useAxiosPrivate();
   const searchParams = useSearchParams();
   const search = Object.fromEntries(searchParams);
-  const page = search.page;
 
-  const fetchPayments = async (search: string, page: string) => {
+  const fetchPayments = async (search: string, searchParam: any) => {
     try {
-      const response = await axiosPrivate.get(`/payments`, {
+      const { page, from, to } = searchParam;
+      const response = await axiosPrivate.get(`/payments/admin`, {
         params: {
           search,
-          duration: selectedDuration,
           page,
+          from,
+          to,
         },
       });
       return response?.data;
@@ -55,8 +57,8 @@ const TransactionList = () => {
     isLoading: isLoading,
     error,
   } = useQuery({
-    queryKey: ["payments", selectedDuration, page, debouncedSearchTerm],
-    queryFn: () => fetchPayments(debouncedSearchTerm, page),
+    queryKey: ["payments", selectedDuration, search, debouncedSearchTerm],
+    queryFn: () => fetchPayments(debouncedSearchTerm, search),
   });
 
   const handleSearch = useCallback((event: any) => {
@@ -125,7 +127,6 @@ const TransactionList = () => {
     data: data?.data?.payments,
     columns: columns,
     pageCount: data?.pagination?.pageCount ?? 1,
-    // optional props
     defaultPerPage: 10,
   });
 
@@ -138,13 +139,17 @@ const TransactionList = () => {
           setSelectedDuration(val);
         }}
       >
-        <div className="flex items-center p-6">
-          <TabsList>
-            <TabsTrigger value="all">All</TabsTrigger>
-            <TabsTrigger value="weekly">Week</TabsTrigger>
-            <TabsTrigger value="monthly">Month</TabsTrigger>
-            <TabsTrigger value="yearly">Year</TabsTrigger>
-          </TabsList>
+        <div className="flex justify-end items-center p-6 ">
+          <DateRangePicker
+            triggerSize="sm"
+            triggerClassName="ml-auto w-56 sm:w-60"
+            align="end"
+            dateRange={
+              search.from && search.to
+                ? { from: new Date(search.from), to: new Date(search.to) }
+                : undefined
+            }
+          />
         </div>
         <TabsContent value={selectedDuration} className="px-6">
           <Card x-chunk="dashboard-05-chunk-3" className="border-dashed">
@@ -155,9 +160,7 @@ const TransactionList = () => {
               >
                 <CardHeader className="p-0">
                   <CardTitle>Transactions</CardTitle>
-                  <CardDescription>
-                    Recent transactions from your store.
-                  </CardDescription>
+                  <CardDescription>Recent received payments.</CardDescription>
                 </CardHeader>
               </div>
               <div className="relative md:ml-auto flex-1 md:grow-0">

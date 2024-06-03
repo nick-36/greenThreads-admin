@@ -22,6 +22,8 @@ import {
   BarChart,
   Tag,
   Store,
+  SquareUserRound,
+  Users,
 } from "lucide-react";
 import { useClerk } from "@clerk/clerk-react";
 import { usePathname, useRouter } from "next/navigation";
@@ -40,6 +42,8 @@ const iconMapping: IconMapping = {
   products: (props: any) => <Package className="h-4 w-4" {...props} />,
   barchart: (props: any) => <BarChart className="h-4 w-4" {...props} />,
   tag: (props: any) => <Tag className="h-4 w-4" {...props} />,
+  sellers: (props: any) => <SquareUserRound className="h-4 w-4" {...props} />,
+  customers: (props: any) => <Users className="h-4 w-4" {...props} />,
 };
 
 const DesktopHeader = () => {
@@ -94,9 +98,8 @@ const DesktopHeader = () => {
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link href={"/profile"}>Edit Profile</Link>
+              <Link href={"/admin/profile"}>Profile</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>Support</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => signOut(() => router.push("/sign-in"))}

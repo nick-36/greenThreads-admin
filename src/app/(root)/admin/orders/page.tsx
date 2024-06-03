@@ -1,7 +1,7 @@
 import React from "react";
-import ServerPageWrapper from "../serverPageWrapper";
-import OrderList from "@/components/shared/Listing/OrderList";
-import { withAuthorization } from "@/lib/utils/axios";
+import ServerPageWrapper from "@/app/(root)/serverPageWrapper";
+// import OrderList from "@/components/shared/Listing/OrderList";
+import OrdersListClient from "./orders-client";
 
 // const fetchWithAuthorization = withAuthorization();
 
@@ -10,7 +10,7 @@ const Page = async () => {
 
   return (
     <ServerPageWrapper headerProps={{ headerTitle: "Orders" }}>
-      <OrderList  />
+      <OrdersListClient />
     </ServerPageWrapper>
   );
 };

@@ -9,17 +9,24 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import DataTable from "../Table/Table";
+import { DataTable } from "@/components/shared/Table/data-table";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import Link from "next/link";
 import { Category } from "@/lib/utils/types/CategoryType";
+import { useDataTable } from "@/hooks/useDataTable";
 
-type CategoryListProps = {
-  categories: Category[];
+type BrandListProps = {
+  brands: Brand[];
 };
 
-const CategoryList = ({ categories }: CategoryListProps) => {
+type Brand = {
+  name: string;
+  description: string;
+  media: string;
+};
+
+const BrandList = ({ brands }: BrandListProps) => {
   const columns: ColumnDef<any>[] = [
     {
       id: "name",
@@ -44,19 +51,20 @@ const CategoryList = ({ categories }: CategoryListProps) => {
       },
     },
     {
-      id: "categoryImg",
-      accessorKey: "categoryImg",
+      id: "media",
+      accessorKey: "media",
       header: "Image",
       cell: ({ row }) => {
-        const { categoryImg } = row?.original;
+        const { media } = row?.original;
+        const imgSrc = media ?? "/assets/placeholder.svg";
 
         return (
           <div className="sm:table-cell">
             <Image
-              src={categoryImg ?? "/assets/placeholder.svg"}
+              src={imgSrc}
               width={24}
               height={24}
-              alt="category icon"
+              alt="brand icon"
               className="rounded-sm"
             />
           </div>
@@ -64,6 +72,13 @@ const CategoryList = ({ categories }: CategoryListProps) => {
       },
     },
   ];
+
+  const { table } = useDataTable({
+    data: brands,
+    columns: columns,
+    pageCount: 0,
+  });
+
   return (
     <div>
       <Card x-chunk="dashboard-05-chunk-3" className="border-none shadow-none">
@@ -74,28 +89,16 @@ const CategoryList = ({ categories }: CategoryListProps) => {
               className="flex flex-1 justify-between border-none"
             >
               <CardHeader className="p-0">
-                <CardTitle>Categories</CardTitle>
-                <CardDescription>All Categories</CardDescription>
+                <CardTitle>Brands</CardTitle>
+                <CardDescription>All Brand List</CardDescription>
               </CardHeader>
             </div>
-            <div className="relative md:ml-auto flex-1 md:grow-0">
-              <Link href="/categories/create">
-                <Button size="sm" className="h-8 gap-1">
-                  <PlusCircle className="h-3.5 w-3.5" />
-                  <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                    Create
-                  </span>
-                </Button>
-              </Link>
-            </div>
           </div>
-          <Card className="border-dashed">
-            <DataTable columns={columns} data={categories} />
-          </Card>
+          <DataTable table={table} />
         </CardContent>
       </Card>
     </div>
   );
 };
 
-export default CategoryList;
+export default BrandList;

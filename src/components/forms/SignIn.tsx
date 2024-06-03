@@ -15,15 +15,6 @@ export default function SignIn() {
   return (
     <>
       <div className="container h-[calc(100vh-280px)] md:h-screen mx-auto px-0 flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0 bg-zinc-900">
-        <Link
-          href="/sign-up"
-          className={cn(
-            buttonVariants({ variant: "link" }),
-            "flex gap-2 absolute right-4 top-4 md:right-8 md:top-8 z-10 text-white md:text-black"
-          )}
-        >
-          Sign up <Icons.forwardArrow className="font-bold" />
-        </Link>
         <div className="relative md:h-full flex-col justify-center  items-center bg-muted p-10 text-white lg:flex dark:border-r">
           <div className="absolute inset-0 bg-zinc-900" />
           <div className="relative mx-auto z-20 flex items-center text-lg font-medium w-[200px] h-[200px] md:w-[300px] md:h-[300px]">

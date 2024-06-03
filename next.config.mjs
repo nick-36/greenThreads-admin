@@ -2,6 +2,20 @@
 // @ts-ignore
 const isDev = process.env.NODE_ENV !== "production";
 
+const getRedirects = () => {
+  return [
+    {
+      source: "/",
+      destination: "/admin/analytics",
+      permanent: true,
+    },
+    {
+      source: "/admin",
+      destination: "/admin/analytics",
+      permanent: true,
+    },
+  ];
+};
 const nextConfig = {
   reactStrictMode: false,
   images: {
@@ -24,6 +38,9 @@ const nextConfig = {
       },
       { protocol: "https", hostname: "utfs.io" },
     ],
+  },
+  async redirects() {
+    return [...getRedirects()];
   },
 };
 

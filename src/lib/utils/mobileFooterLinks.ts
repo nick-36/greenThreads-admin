@@ -1,37 +1,43 @@
 export const mobileFooterLinks = [
+  // {
+  //   name: "Home",
+  //   href: "/admin",
+  //   icon: "home",
+  // },
   {
-    name: "Home",
-    href: "/",
-    icon: "home",
+    name: "Analytics",
+    href: "/admin/analytics",
+    icon: "barchart",
+  },
+  {
+    name: "Sellers",
+    href: "/admin/sellers",
+    icon: "sellers",
+  },
+  {
+    name: "Customers",
+    href: "/admin/customers",
+    icon: "customers",
   },
   {
     name: "Orders",
-    href: "/orders",
+    href: "/admin/orders",
     icon: "orders",
   },
   {
     name: "Revenue",
-    href: "/revenue",
+    href: "/admin/revenue",
     icon: "revenue",
   },
   {
-    name: "Brand",
-    href: "/brand",
+    name: "Brands",
+    href: "/admin/brand",
     icon: "brand",
   },
-  {
-    name: "Products",
-    href: "/products",
-    icon: "products",
-  },
-  {
-    name: "Analytics",
-    href: "/analytics",
-    icon: "barchart",
-  },
+
   {
     name: "Categories",
-    href: "/categories",
+    href: "/admin/categories",
     icon: "tag",
   },
 ];

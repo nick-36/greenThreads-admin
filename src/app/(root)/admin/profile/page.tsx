@@ -1,6 +1,6 @@
 import React from "react";
 import AccountProfile from "@/components/forms/AccountProfile";
-import ServerPageWrapper from "../serverPageWrapper";
+import ServerPageWrapper from "@/app/(root)/serverPageWrapper";
 import DesktopMain from "@/components/shared/Layouts/DesktopMain";
 const Page = () => {
   return (

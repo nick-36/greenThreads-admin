@@ -39,7 +39,7 @@ export const withAuthorization = () => {
       });
 
       if (res.data?.success) {
-        return res.data?.data;
+        return res.data;
       } else {
         console.error("Failed to fetch data");
         return [];

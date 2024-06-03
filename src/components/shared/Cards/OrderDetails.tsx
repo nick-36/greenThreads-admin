@@ -15,6 +15,7 @@ import { formatDateString } from "@/lib/utils";
 import { toast } from "@/components/ui/use-toast";
 
 export default function OrderDetails({ orderDetails }: any) {
+  console.log(orderDetails, "DETAILS");
   const onCopy = (copyText: string) => {
     navigator.clipboard.writeText(copyText);
     toast({
@@ -60,20 +61,18 @@ export default function OrderDetails({ orderDetails }: any) {
           <div className="grid gap-3">
             <div className="font-semibold">Order Details</div>
             <ul className="grid gap-3">
-              {orderDetails.orderItems.items?.map(
-                (orderItem: any, index: number) => (
-                  <li className="flex items-center justify-between" key={index}>
-                    <span className="text-muted-foreground">
-                      {orderItem?.productName} x{" "}
-                      <span>{orderItem?.quantity}</span>
-                    </span>
-                    <span className="flex items-center">
-                      <IndianRupee className="h-3 w-3" />
-                      <span>{orderItem?.amountTotal}</span>
-                    </span>
-                  </li>
-                )
-              )}
+              {orderDetails.orderItems?.map((orderItem: any, index: number) => (
+                <li className="flex items-center justify-between" key={index}>
+                  <span className="text-muted-foreground">
+                    {orderItem?.productName} x{" "}
+                    <span>{orderItem?.quantity}</span>
+                  </span>
+                  <span className="flex items-center">
+                    <IndianRupee className="h-3 w-3" />
+                    <span>{orderItem?.amountTotal}</span>
+                  </span>
+                </li>
+              ))}
             </ul>
             <Separator className="my-2" />
             <ul className="grid gap-3">
@@ -82,7 +81,7 @@ export default function OrderDetails({ orderDetails }: any) {
 
                 <span className="flex items-center">
                   <IndianRupee className="h-3 w-3" />
-                  <span>{orderDetails?.orderItems?.totalAmount}</span>
+                  <span>{orderDetails?.amountSubTotal}</span>
                 </span>
               </li>
               {/* <li className="flex items-center justify-between">
@@ -97,7 +96,7 @@ export default function OrderDetails({ orderDetails }: any) {
                 <span className="text-muted-foreground">Total</span>
                 <span className="flex items-center">
                   <IndianRupee className="h-3 w-3" />
-                  <span>{orderDetails?.orderItems?.subTotal}</span>
+                  <span>{orderDetails?.amountTotal}</span>
                 </span>
               </li>
             </ul>

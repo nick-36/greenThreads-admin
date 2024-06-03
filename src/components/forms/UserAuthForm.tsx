@@ -43,10 +43,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const router = useRouter();
   const { toast } = useToast();
 
-  // async function onSubmit(formValues: any) {
-  //   ctaCallBack(formValues);
-  // }
-
   const form = useForm({
     resolver: zodResolver(SignInValidation),
     defaultValues: {
@@ -55,8 +51,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       password: "",
     },
   });
-
-  // form.setValue("_step", "SIGN_IN");
 
   const onSubmit = async (values: any) => {
     setIsLoading(true);
@@ -73,7 +67,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       if (result.status === "complete") {
         console.log(result);
         await setActive({ session: result.createdSessionId });
-        router.push("/");
+        router.push("/admin/analytics");
       } else {
         /*Investigate why the sign-in hasn't completed */
         console.log(result);

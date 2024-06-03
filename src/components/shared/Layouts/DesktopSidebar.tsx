@@ -9,7 +9,9 @@ import {
   LineChart,
   BarChart,
   Tag,
+  SquareUserRound,
   Store,
+  Users,
 } from "lucide-react";
 import { mobileFooterLinks } from "@/lib/utils/mobileFooterLinks";
 import { usePathname, useRouter } from "next/navigation";
@@ -27,8 +29,9 @@ const iconMapping: IconMapping = {
   products: (props: any) => <Package className="h-4 w-4" {...props} />,
   barchart: (props: any) => <BarChart className="h-4 w-4" {...props} />,
   tag: (props: any) => <Tag className="h-4 w-4" {...props} />,
+  sellers: (props: any) => <SquareUserRound className="h-4 w-4" {...props} />,
+  customers: (props: any) => <Users className="h-4 w-4" {...props} />,
 };
-
 const DesktopSidebar = () => {
   const pathname = usePathname();
   const [currPath, setCurrPath] = useState(pathname);
@@ -53,7 +56,7 @@ const DesktopSidebar = () => {
             </div>
             <span className=""></span>
           </Link>
-          <NotificationBell notificationCount={10} />
+          {/* <NotificationBell notificationCount={10} /> */}
         </div>
         <div className="flex-1">
           <nav className="grid items-start px-2 text-sm font-medium lg:px-4">

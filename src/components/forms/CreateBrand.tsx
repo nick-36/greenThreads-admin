@@ -1,9 +1,8 @@
 "use client";
-import React, { ChangeEvent, useState } from "react";
+import React from "react";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -11,12 +10,11 @@ import {
 } from "@/components/ui/form";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { brandValidationSchema } from "@/lib/validation/productValidation";
+import { brandValidationSchema } from "@/lib/validation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "../ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
-
 import { cn } from "@/lib/utils";
 import { useToast } from "../ui/use-toast";
 import { useMutation } from "@tanstack/react-query";

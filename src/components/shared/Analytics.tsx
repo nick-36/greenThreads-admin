@@ -20,9 +20,11 @@ const Analytics = () => {
   const axiosPrivate = useAxiosPrivate();
   const fetchRevenueInfo = async () => {
     try {
-      const response = await axiosPrivate.get(
-        `/payments/revenue?duration=${duration}`
-      );
+      const response = await axiosPrivate.get(`/admin/revenue-info`, {
+        params: {
+          duration,
+        },
+      });
       return response?.data.data;
     } catch (error: any) {
       toast({
@@ -98,9 +100,15 @@ const Analytics = () => {
           <Card className="sm:col-span-2 lg:col-span-3">
             <CardHeader>
               <CardTitle>Recent Sales</CardTitle>
-              <CardDescription>
-                You made {data?.totalSalesOfMonth} sales this month.
-              </CardDescription>
+              {data?.totalSalesOfMonth > 0 ? (
+                <CardDescription>
+                  You made {data?.totalSalesOfMonth} sales this month.
+                </CardDescription>
+              ) : (
+                <CardDescription>
+                  No sales recorded this month yet.
+                </CardDescription>
+              )}
             </CardHeader>
             <CardContent>
               <RecentSales data={data?.recentSales} />
