@@ -1,9 +1,4 @@
 export const mobileFooterLinks = [
-  // {
-  //   name: "Home",
-  //   href: "/admin",
-  //   icon: "home",
-  // },
   {
     name: "Analytics",
     href: "/admin/analytics",
@@ -25,8 +20,8 @@ export const mobileFooterLinks = [
     icon: "orders",
   },
   {
-    name: "Revenue",
-    href: "/admin/revenue",
+    name: "Transactions",
+    href: "/admin/transactions",
     icon: "revenue",
   },
   {

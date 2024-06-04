@@ -1,6 +1,6 @@
-import React, { Suspense } from "react";
+import React from "react";
 import ServerPageWrapper from "@/app/(root)/serverPageWrapper";
-import TransactionListClient from "./revenue-client";
+import TransactionListClient from "./transactions-client";
 const page = () => {
   return (
     <ServerPageWrapper headerProps={{ headerTitle: "Revenue" }}>

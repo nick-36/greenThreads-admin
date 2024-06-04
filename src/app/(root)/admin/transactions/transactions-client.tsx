@@ -154,7 +154,7 @@ const TransactionList = (props: any) => {
   return (
     <CommonList
       table={table}
-      title={"Transaction"}
+      title={"Transactions"}
       subTitle="Recent transactions from your store."
       searchState={searchTerm}
       handleSearch={handleSearch}
