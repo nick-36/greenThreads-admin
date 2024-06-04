@@ -14,6 +14,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "@/components/ui/use-toast";
 import { IndianRupee } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { LoadingSpinner } from "@/components/ui/loading";
 
 const Analytics = () => {
   const [duration, setDuration] = useState("yearly");
@@ -37,6 +38,14 @@ const Analytics = () => {
     queryKey: ["revenue", duration],
     queryFn: () => fetchRevenueInfo(),
   });
+
+  if (isLoading) {
+    return (
+      <div className="flex h-[calc(100vh-80px)] justify-center items-center">
+        <LoadingSpinner className="h-8 w-8" />
+      </div>
+    );
+  }
 
   return (
     <div className=" flex-col md:flex">

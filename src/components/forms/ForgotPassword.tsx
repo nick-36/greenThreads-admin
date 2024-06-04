@@ -13,7 +13,6 @@ import { MoveLeft, MoveLeftIcon } from "lucide-react";
 const ForgotPassword = () => {
   return (
     <>
-      {/*  mx-auto px-0 h-full md:h-[100vh] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0 */}
       <div className="container h-[calc(100vh-80px)] md:h-screen  px-0 items-center justify-center md:grid lg:max-w-none lg:grid-cols-2  bg-zinc-900">
         <Link
           href="/sign-up"

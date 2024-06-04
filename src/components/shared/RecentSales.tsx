@@ -1,15 +1,17 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { useUser } from "@clerk/nextjs";
 import { IndianRupee } from "lucide-react";
 
 export function RecentSales({ data }: any) {
+  const userData = useUser();
+
   return (
     <div className="space-y-8">
       {data?.map((sale: any, idx: number) => {
         return (
           <div className="flex items-center" key={idx}>
             <Avatar className="flex h-9 w-9 items-center justify-center space-y-0 border">
-              <AvatarImage src="/avatars/02.png" alt="Avatar" />
-              {/* <AvatarFallback>JL</AvatarFallback> */}
+              <AvatarImage src={userData?.user?.imageUrl} alt="Avatar" />
             </Avatar>
             <div className="ml-4 space-y-1">
               <p className="text-sm font-medium leading-none">
